@@ -4,7 +4,7 @@ export default function Sidebar({ open, setOpen }) {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    window.location.href = "/login";
+    window.location.href = "/";
   };
 
   return (
