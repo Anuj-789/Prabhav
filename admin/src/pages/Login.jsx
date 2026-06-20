@@ -7,21 +7,31 @@ export default function Login() {
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
+const handleLogin = async () => {
+  try {
+    const res = await api.post("/admin/login", {
+      email,
+      password,
+    });
 
-  const handleLogin = async () => {
-    try {
-      const res = await api.post("/admin/login", {
-        email,
-        password,
-      });
+    localStorage.setItem("token", res.data.token);
 
-      localStorage.setItem("token", res.data.token);
+    alert("Login successful ✅");
+    navigate("/");
+  } catch (err) {
+    const message =
+      err?.response?.data?.message || "Something went wrong";
 
-      navigate("/");
-    } catch (err) {
-      alert("Login failed");
+    // 👇 smart error messages
+    if (message.toLowerCase().includes("email")) {
+      alert("❌ Wrong email address");
+    } else if (message.toLowerCase().includes("password")) {
+      alert("❌ Wrong password");
+    } else {
+      alert("❌ " + message);
     }
-  };
+  }
+};
 
   return (
     <div className="h-screen flex items-center justify-center bg-gray-100">
