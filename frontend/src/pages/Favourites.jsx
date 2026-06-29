@@ -202,12 +202,9 @@ function Favourites() {
       </div>
 
       {/* FOOTER */}
-      <div className="mt-12 border-t border-slate-300 pt-5 text-center">
+      <div className="mt-12 border-t border-slate-300 pt-3 text-center">
 
-          <p className="text-sm text-blue-800 font-medium my-2">
-          @ {new Date().getFullYear()} Prabhav • Made by Anuj Gupta
-        </p>
-
+          
 
         <div className="flex justify-center gap-4 mt-3 text-sm">
 
@@ -237,7 +234,11 @@ function Favourites() {
           </Link>
 
         </div>
-       
+        
+       <p className="text-sm text-blue-800 font-medium my-2">
+          @ {new Date().getFullYear()} Prabhav • Made by Anuj Gupta
+        </p>
+
       
       </div>
 
