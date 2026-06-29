@@ -10,7 +10,7 @@ function About() {
       <div className="flex-1">
 
         <h1 className="text-3xl font-bold text-blue-900 mb-4 flex justify-center">
-          Prabhav Vision
+          Prabhav – Where Thoughts Live
         </h1>
 
         <p className="text-blue-900 leading-7 font-semibold">
@@ -53,9 +53,7 @@ function About() {
       {/* FOOTER INSIDE PAGE */}
       <div className="mt-12 border-t border-slate-300 pt-5 text-center">
 
-        <p className="text-sm text-blue-800 font-medium my-2">
-          @ {new Date().getFullYear()} Prabhav • Made by Anuj Gupta
-        </p>
+        
 
         <div className="flex justify-center gap-4 mt-3 text-sm">
 
@@ -76,7 +74,9 @@ function About() {
           </Link>
 
         </div>
-
+<p className="text-sm text-blue-800 font-medium my-2">
+          @ {new Date().getFullYear()} Prabhav • Made by Anuj Gupta
+        </p>
       </div>
 
     </div>
