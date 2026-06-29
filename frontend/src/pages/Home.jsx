@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getCategories } from "../api/categoryApi";
 import { getArticles } from "../api/articleApi";
+import InitialLoader from "../components/InitialLoader";
 
 function Home() {
   const [categories, setCategories] = useState([]);
@@ -9,9 +10,18 @@ function Home() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // ✅ NEW STATE (FIRST TIME ONLY)
+  const [firstLoad, setFirstLoad] = useState(true);
+
   const navigate = useNavigate();
 
   useEffect(() => {
+    const visited = sessionStorage.getItem("visited");
+
+    if (visited) {
+      setFirstLoad(false);
+    }
+
     fetchInitialData();
   }, []);
 
@@ -26,6 +36,10 @@ function Home() {
 
       setCategories(catData);
       setArticles(articleData);
+
+      sessionStorage.setItem("visited", "true");
+      setFirstLoad(false);
+
     } catch (err) {
       console.log(err);
     } finally {
@@ -60,7 +74,12 @@ function Home() {
     navigate(`/article/${article._id}`);
   };
 
-  // ✅ PREMIUM LOADER
+  // ✅ ONLY FIRST TIME SPLASH LOADER
+  if (firstLoad && loading) {
+    return <InitialLoader />;
+  }
+
+  // ✅ NORMAL LOADER (your existing one)
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[70vh]">
@@ -75,8 +94,8 @@ function Home() {
         </h2>
 
         <p className="text-sm text-slate-500 mt-1">
-My Library
- </p>
+          My Library
+        </p>
 
         <div className="flex gap-1 mt-4">
           <span className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></span>
@@ -112,23 +131,30 @@ My Library
         </button>
 
         {categories.map((cat, index) => (
-          <button
+          <div
             key={cat._id}
-            onClick={() => handleCategoryClick(cat)}
-            className={`
-              px-4 py-2 rounded-full border
-              transition-all duration-300
-              whitespace-nowrap
-              border-slate-400
-              ${
-                selectedCategory?._id === cat._id
-                  ? "bg-slate-400 text-white shadow-lg"
-                  : "bg-white text-slate-700 hover:bg-slate-400 hover:text-white"
-              }
-            `}
+            className="category-animate"
+            style={{
+              animationDelay: `${index * 120}ms`,
+            }}
           >
-            {cat.name}
-          </button>
+            <button
+              onClick={() => handleCategoryClick(cat)}
+              className={`
+                px-4 py-2 rounded-full border
+                transition-all duration-300
+                whitespace-nowrap
+                border-slate-400
+                ${
+                  selectedCategory?._id === cat._id
+                    ? "bg-slate-400 text-white shadow-lg"
+                    : "bg-white text-slate-700 hover:bg-slate-400 hover:text-white"
+                }
+              `}
+            >
+              {cat.name}
+            </button>
+          </div>
         ))}
       </div>
 
